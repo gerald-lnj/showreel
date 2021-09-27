@@ -1,15 +1,15 @@
 from flask import Flask
-
+from flask_cors import CORS
+from app.api.clip import clip_bp
+from app.api.reel import reel_bp
 
 def create_app():
-    from app.api.views import bp
     app = Flask(__name__)
 
-    app.register_blueprint(bp)
+    app.register_blueprint(clip_bp)
+    app.register_blueprint(reel_bp)
+    CORS(app)
     return app
 
-app = create_app()
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+app = create_app()
