@@ -1,5 +1,13 @@
 # showreel
 
+## Introduction
+
+A POC project to generate Reels, which are collections of Clips. Clips and Reels have attributes such as Definition and Standard. Reels can only be comprised of Clips with the same attributes.
+
+Each Clip also has a timestamp duration in the format hh:mm:ss:ff (Hours, Minutes, Seconds, Frames). A Reel's Timestamp duration will be the sum of its Clip's timestamps.
+
+## Stack
+
 This repo contains two folders, one for the Flask server and one for the Vue UI.
 
 This project uses:
@@ -30,7 +38,7 @@ npm i
 npm run serve
 ```
 
-Access via chrome with insecure localhost flag enabled.
+Access via Chrome with insecure localhost flag enabled.
 
 ## Tests
 
@@ -38,7 +46,7 @@ Units tests are done with pytest.
 
 ```bash
 cd showreel_server
-python -m pytest
+poetry run pytest
 ```
 
 ## Assumptions
@@ -50,6 +58,6 @@ Some assumptions I made:
 
 ## Caveats
 
-I faced a bunch of issues in starting MongoDB due to brew and Big Sur, so I used a JSON file to store clips and reels instead. 
+I faced a bunch of issues in starting MongoDB due to brew and Big Sur, so I used a JSON file to store clips and reels instead.
 
 I was intending to set up a MongoDB database with a validation schema on the for clips and reels, and a migration scipt to populate clips.
