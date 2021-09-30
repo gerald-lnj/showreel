@@ -11,8 +11,9 @@ This project uses:
 
 ```bash
 cd showreel_server
-pip install -r requirements.txt
-python -m flask run --cert=cert.pem --key=key.pem
+pip install poetry
+poetry install
+poetry run flask run --cert=cert.pem --key=key.pem
 ```
 
 We use self-signed certs to enable https. The certs are included in this repo, or you can generate them with:
