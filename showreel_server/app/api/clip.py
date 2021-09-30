@@ -16,16 +16,12 @@ clip_bp = Blueprint("clip", __name__, url_prefix="/clip")
 
 @clip_bp.route("/", methods=["GET"])
 def get_clips():
-    return jsonify([clip.dict() for clip in load_clips_from_json()])
+    return jsonify([clip.dict() for clip in load_clips_from_json().values()])
 
 
 @clip_bp.route("/<clip_id>", methods=["GET"])
 def get_clip_id(clip_id: str):
     try:
-        clip_id = int(clip_id)
-    except (ValueError, KeyError):
-        return "path argument clip_id must be an integer.", 400
-    try:
         return get_clip(clip_id).dict()
     except IndexError:
-        return f"Clip with index {clip_id} not found.", 404
+        return f"Clip with ID {clip_id} not found.", 404

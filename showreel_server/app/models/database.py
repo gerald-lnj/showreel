@@ -13,21 +13,22 @@ REELS_JSON_FILEPATH = os.path.join(os.getcwd(), "app", "models", "reels.json")
 
 
 @lru_cache(maxsize=None)
-def load_clips_from_json() -> List[Clip]:
+def load_clips_from_json() -> Dict[str, Clip]:
     """
     Load all clips from JSON file, cache the response to avoid repeated R/W
     """
-    clips = []
+    clips = {}
     with open(CLIPS_JSON_FILEPATH) as json_file:
         raw_clips = json.load(json_file)
         for raw_clip in raw_clips:
-            clips.append(Clip.from_dict(**raw_clip))
+            clip = Clip.from_dict(**raw_clip)
+            clips[clip.id] = clip
     return clips
 
 
 @lru_cache
-def get_clip(index: int) -> Clip:
-    return load_clips_from_json()[index]
+def get_clip(_id: str) -> Clip:
+    return load_clips_from_json()[_id]
 
 
 @lru_cache(maxsize=None)

@@ -109,6 +109,7 @@ class Timecode:
 
 
 class Clip(BaseModel):
+    id: str
     name: str
     description: str
     standard: Standard
@@ -120,7 +121,9 @@ class Clip(BaseModel):
         arbitrary_types_allowed = True
 
     @validator("start_timecode", "end_timecode")
-    def timecode_standard(cls, v: Timecode, values: Dict):
+    def timecode_standard(
+        cls, v: Timecode, values: Dict
+    ):  # pylint: disable=no-self-argument
         clip_standard: Standard = values["standard"]
         if v.standard != clip_standard:
             raise ValueError(
@@ -131,6 +134,7 @@ class Clip(BaseModel):
 
     @classmethod
     def from_dict(cls, *args, **kwargs):
+        id: str = kwargs["id"]
         name: str = kwargs["name"]
         description: str = kwargs["description"]
         standard: Standard = getattr(Standard, kwargs["standard"])
@@ -138,6 +142,7 @@ class Clip(BaseModel):
         start_timecode = Timecode.from_str(kwargs["start_timecode"], standard)
         end_timecode = Timecode.from_str(kwargs["end_timecode"], standard)
         return cls(
+            id=id,
             name=name,
             description=description,
             standard=standard,
@@ -151,6 +156,7 @@ class Clip(BaseModel):
         Override Basemodel.dict() for custom dict representation
         """
         return {
+            "id": self.id,
             "name": self.name,
             "description": self.description,
             "standard": self.standard.name,
@@ -175,7 +181,9 @@ class Reel(BaseModel):
         self.duration = self.get_duration()
 
     @validator("clips")
-    def clips_post_init(cls, v: List[Clip], values: Dict):
+    def clips_post_init(
+        cls, v: List[Clip], values: Dict
+    ):  # pylint: disable=no-self-argument
         """
         Validate that all clips share Standard with Reel
         """
