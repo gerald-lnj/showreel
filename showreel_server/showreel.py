@@ -3,6 +3,7 @@ from flask_cors import CORS
 from app.api.clip import clip_bp
 from app.api.reel import reel_bp
 
+
 def create_app():
     app = Flask(__name__)
 
